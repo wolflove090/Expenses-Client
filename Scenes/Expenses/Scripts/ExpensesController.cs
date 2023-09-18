@@ -48,12 +48,18 @@ public class ExpensesData
     public int akiBorder;
 }
 
+// ボタン情報
+struct ButtonInfo
+{
+    public string _label;
+    public string _iconName;
+}
+
 public class ExpensesController : ControllerBase<ExpensesViewModel>
 {
     int[] _ValueArray = new int[5]{0,0,0,0,0};
     bool _IsMinus;
-    string[] _Labels = new string[]{"食費", "ガソリン", "日用品", "外食", "コンビニ", "美容・服飾", "医療・健康", "ゲーム", "娯楽・レジャー","教養","交際費" ,"樹私用", "亜紀私用"};
-    string[] _IconArray = new string[]{"btn_line_black_cart", "btn_line_black_potion", "btn_line_black_home", "btn_line_black_shop", "btn_line_black_restore", "btn_line_black_jewel_1", "btn_line_black_life", "btn_line_black_game_1", "btn_line_black_flag","btn_line_black_lamp","btn_line_black_gift" ,"btn_line_black_man", "btn_line_black_woman"};
+    IButton[] _buttons = {new Food(), new Gasoline(), new Item(), new Restaurant(), new Convenience(), new Beauty(),new Helth(),new Game(),new Entertainment(),new Study(),new Present(),new Tatsuki(),new Aki()};
 
     // APIパス
     // 非公開フォルダにパスを記述
@@ -110,9 +116,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         };
 
         // ラベル生成
-        // TODO for に変えたい
         int count = 0;
-        foreach(var label in this._Labels)
+        foreach(var button in this._buttons)
         {
             int index = count;
             var toggle = GameObject.Instantiate(this._ViewModel.LabelToggle, this._ViewModel.LabelGroup.gameObject.transform).GetComponent<ExpensesToggle>();
@@ -124,8 +129,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
                 else
                     this._LabelIndex = -1;
             };
-            var icon = Resources.Load<Sprite>(this._IconArray[count]);
-            toggle.Label = label;
+            var icon = Resources.Load<Sprite>(button._iconName);
+            toggle.Label = button._label;
             toggle.Icon = icon;
             
             count++;
@@ -296,7 +301,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         Debug.Log(this._LabelIndex);
 
         string url = this._ApiUrl;
-        string labelParam = "label=" + this._Labels[this._LabelIndex];
+        string labelParam = "label=" + this._buttons[this._LabelIndex]._label;
         string expensesParam = "&expenses=" + this._GetValue().ToString();
         string debugParam = "&isDebug=";
 
