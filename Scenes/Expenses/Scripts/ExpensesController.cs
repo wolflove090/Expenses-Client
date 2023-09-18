@@ -59,7 +59,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 {
     int[] _ValueArray = new int[5]{0,0,0,0,0};
     bool _IsMinus;
-    IButton[] _buttons = {new Food(), new Gasoline(), new Item(), new Restaurant(), new Convenience(), new Beauty(),new Helth(),new Game(),new Entertainment(),new Study(),new Present(),new Tatsuki(),new Aki()};
+    IButton[] _buttons = {new Food(), new Costco(), new Gasoline(), new Item(), new Restaurant(), new Convenience(), new Lunch(), new Beauty(),new Helth(),new Game(),new Entertainment(),new Study(),new Present(),new Tatsuki(),new Aki()};
 
     // APIパス
     // 非公開フォルダにパスを記述

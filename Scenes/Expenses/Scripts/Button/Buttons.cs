@@ -8,6 +8,12 @@ public struct Food : IButton
     public string _iconName => "btn_line_black_cart";
 }
 
+public struct Costco : IButton
+{
+    public string _label => "コストコ";
+    public string _iconName => "btn_line_black_shopping_2";
+}
+
 public struct Gasoline : IButton
 {
     public string _label => "ガソリン";
@@ -30,6 +36,12 @@ public struct Convenience : IButton
 {
     public string _label => "コンビニ";
     public string _iconName => "btn_line_black_restore";
+}
+
+public struct Lunch : IButton
+{
+    public string _label => "お昼";
+    public string _iconName => "btn_line_black_bag";
 }
 
 public struct Beauty : IButton
