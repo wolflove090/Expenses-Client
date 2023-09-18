@@ -52,10 +52,12 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
             throw new System.Exception("ExpensesData が null");
 
         this._ViewModel.Food.Init(inData.foodAmount, inData.foodBorder);
+        this._ViewModel.Costco.Init(inData.costcoAmount, inData.costcoBorder);
         this._ViewModel.Gasoline.Init(inData.gasolineAmount, inData.gasolineBorder);
         this._ViewModel.Item.Init(inData.itemAmount, inData.itemBorder);
         this._ViewModel.Restaurant.Init(inData.restaurantAmount, inData.restaurantBorder);
         this._ViewModel.Convenience.Init(inData.convenienceAmount, inData.convenienceBorder);
+        this._ViewModel.Lanch.Init(inData.lanchAmount, inData.lanchBorder);
         this._ViewModel.Beauty.Init(inData.beautyAmount, inData.beautyBorder);
         this._ViewModel.Health.Init(inData.healthAmount, inData.healthBorder);
         this._ViewModel.Game.Init(inData.gameAmount, inData.gameBorder);

@@ -5,16 +5,16 @@ using TMPro;
 
 public class ExpensesTabViewModel : ViewModelBase
 {
-    public RectTransform Hoge;
-
     public GameObject Root;
 
     public ButtonBase HideButton;
     public ExpensesListLabelController Food;
+    public ExpensesListLabelController Costco;
     public ExpensesListLabelController Gasoline;
     public ExpensesListLabelController Item;
     public ExpensesListLabelController Restaurant;
     public ExpensesListLabelController Convenience;
+    public ExpensesListLabelController Lanch;
     public ExpensesListLabelController Beauty;
     public ExpensesListLabelController Health;
     public ExpensesListLabelController Game;
