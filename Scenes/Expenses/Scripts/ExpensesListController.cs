@@ -74,7 +74,7 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
     }
 
     // レコード一覧を受け取って表示
-    public void OnShow(RecordDataModel[] records)
+    public void OnShow(RecordDataModel[] records, RecordDataModel total, RecordDataModel husband, RecordDataModel wife)
     {
         List<ExpensesListLabelController> tabList = new List<ExpensesListLabelController>();
         tabList.Add(this._ViewModel.Food);
@@ -99,8 +99,14 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
             var record = records[i];
             var tab = tabList[i];
             tab.Init(record.consumptionAmount, record.border);
-            
         }
+
+        // 合計
+        this._ViewModel.Total.Init(total.consumptionAmount, total.border);
+
+        // お小遣い
+        this._ViewModel.Tatsuki.Init(husband.consumptionAmount, husband.border);
+        this._ViewModel.Aki.Init(wife.consumptionAmount, wife.border);
 
         this._Show();
     }

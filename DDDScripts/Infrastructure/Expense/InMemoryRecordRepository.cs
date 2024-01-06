@@ -11,6 +11,8 @@ namespace ExpenseInfrastructure
         Record[] records = null;
 
         Record total;
+        Record husbandPocketMoney;
+        Record wifePocketMoney;
 
         public Record[] FindAll()
         {
@@ -37,13 +39,35 @@ namespace ExpenseInfrastructure
             this.total = new Record("合計", 1000, 2000);
 
             return this.total;
-        } 
+        }
+
+        public Record GetHusbandPocketMoney()
+        {
+            if(this.husbandPocketMoney != null) return husbandPocketMoney;
+
+            this.husbandPocketMoney = new Record("夫お小遣い", 3000, 3000);
+
+            return this.husbandPocketMoney;
+        }
+
+        public Record GetWifePocketMoney()
+        {
+            if(this.wifePocketMoney != null) return wifePocketMoney;
+
+            this.wifePocketMoney = new Record("妻お小遣い", 2000, 4000);
+
+            return this.wifePocketMoney;
+        }
 
         public Record Find(string id)
         {
             if(this.records == null) return null;
 
             if(this.total.id == id) return this.total;
+
+            if(this.husbandPocketMoney.id == id) return this.husbandPocketMoney;
+
+            if(this.wifePocketMoney.id == id) return this.wifePocketMoney;
 
             foreach(var record in this.records)
             {

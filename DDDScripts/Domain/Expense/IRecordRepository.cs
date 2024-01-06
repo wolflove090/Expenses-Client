@@ -4,6 +4,8 @@
     {
         Record[] FindAll();
         Record GetTotalRecord();
+        Record GetWifePocketMoney();
+        Record GetHusbandPocketMoney();
         Record Find(string id);
     }
 }

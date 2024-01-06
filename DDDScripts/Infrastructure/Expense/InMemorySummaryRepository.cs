@@ -21,8 +21,10 @@ namespace ExpenseInfrastructure
             }
 
             var total = this.recordRepository.GetTotalRecord();
+            var husband = this.recordRepository.GetHusbandPocketMoney();
+            var wife = this.recordRepository.GetWifePocketMoney();
 
-            return new Summary(recordIds, total.id);
+            return new Summary(recordIds, total.id, husband.id, wife.id);
         }
     }
 }

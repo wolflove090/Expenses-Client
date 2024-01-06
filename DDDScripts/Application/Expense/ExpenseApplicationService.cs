@@ -58,6 +58,18 @@ namespace ExpenseApplication
             return builder.Build();
         }
 
+        public RecordDataModel GetHusbandPocketMoney()
+        {
+            var summary = this.GetSummary();
+            return this.GetRecord(summary.husbandRecordId);
+        }
+
+        public RecordDataModel GetWifePocketMoney()
+        {
+            var summary = this.GetSummary();
+            return this.GetRecord(summary.wifeRecordId);
+        }
+
         public void Record()
         {
             
