@@ -221,8 +221,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             // this._ViewModel.ExpensesList.OnShow(this._ExpensesData);
 
             var summary = this.expenseService.GetSummary();
-            var record = this.expenseService.GetRecord(summary.recordId);
-            this._ViewModel.ExpensesList.OnShow(record);
+            var records = this.expenseService.GetRecords();
+            this._ViewModel.ExpensesList.OnShow(records);
         };
 
         // ---------- 送信ボタン設定 ---------- //

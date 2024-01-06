@@ -73,10 +73,34 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
         this._Show();
     }
 
-    // テスト用に1つだけレコードを参照
-    public void OnShow(ExpenseRecordDataModel record)
+    // レコード一覧を受け取って表示
+    public void OnShow(ExpenseRecordDataModel[] records)
     {
-        this._ViewModel.Food.Init(record.consumptionAmount, record.border);
+        List<ExpensesListLabelController> tabList = new List<ExpensesListLabelController>();
+        tabList.Add(this._ViewModel.Food);
+        tabList.Add(this._ViewModel.Costco);
+        tabList.Add(this._ViewModel.Gasoline);
+        tabList.Add(this._ViewModel.Item);
+        tabList.Add(this._ViewModel.Restaurant);
+        tabList.Add(this._ViewModel.Convenience);
+        tabList.Add(this._ViewModel.Lanch);
+        tabList.Add(this._ViewModel.Beauty);
+        tabList.Add(this._ViewModel.Health);
+        tabList.Add(this._ViewModel.Game);
+        tabList.Add(this._ViewModel.Entertainment);
+        tabList.Add(this._ViewModel.Study);
+        tabList.Add(this._ViewModel.Present);
+        // tabList.Add(this._ViewModel.Tatsuki);
+        // tabList.Add(this._ViewModel.Aki);
+        // tabList.Add(this._ViewModel.Total);
+        
+        for(int i = 0; i < records.Length; i++)
+        {
+            var record = records[i];
+            var tab = tabList[i];
+            tab.Init(record.consumptionAmount, record.border);
+            
+        }
 
         this._Show();
     }
