@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+using ExpenseApplication;
+using ExpenseInfrastructure;
+
 // 家計簿情報データ
 [System.Serializable]
 public class ExpensesData
@@ -357,5 +360,15 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.TatsukiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.tatsukiAmount, this._ExpensesData.tatsukiBorder);
         this._ViewModel.AkiAllowanceNum.text = (this._ExpensesData.akiBorder - this._ExpensesData.akiAmount).ToString();
         this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
+
+        // ---------- [テスト用]ドメイン情報で上書き ---------- //
+        var service = new ExpenseApplicationService(new InMemoryExpenseSummaryRepository());
+        var summary = service.GetSummary();
+
+        // 合計金額
+        this._ViewModel.TotalAmountNum.text = summary.totalConsumptionAmount.ToString();
+        this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
+
+
     }
 }
