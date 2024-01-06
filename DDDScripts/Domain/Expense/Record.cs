@@ -2,7 +2,7 @@
 
 namespace ExpenseDomain
 {
-    public class ExpenseRecord : IEquatable<ExpenseRecord>
+    public class Record : IEquatable<Record>
     {
         public readonly string id;
 
@@ -10,7 +10,7 @@ namespace ExpenseDomain
         readonly int consumptionAmount;
         readonly int border;
 
-        public ExpenseRecord(string categoryName, int amount, int border)
+        public Record(string categoryName, int amount, int border)
         {
             this.id = Guid.NewGuid().ToString();
 
@@ -19,14 +19,14 @@ namespace ExpenseDomain
             this.border = border;
         }
 
-        public void Notify(IExpenseRecordNotification note)
+        public void Notify(IRecordNotification note)
         {
             note.CategoryName(this.categoryName);
             note.ConsumptionAmount(this.consumptionAmount);
             note.Border(this.border);
         }
 
-        public bool Equals(ExpenseRecord other)
+        public bool Equals(Record other)
         {
             if(ReferenceEquals(null, other)) return false;
             if(ReferenceEquals(this, other)) return true;

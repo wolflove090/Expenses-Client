@@ -2,16 +2,16 @@
 
 namespace ExpenseInfrastructure
 {
-    public class InMemoryExpenseSummaryRepository : IExpenseSummaryRepository
+    public class InMemorySummaryRepository : ISummaryRepository
     {
-        IExpenseRecordRepository recordRepository;
+        IRecordRepository recordRepository;
 
-        public InMemoryExpenseSummaryRepository(IExpenseRecordRepository recordRepository)
+        public InMemorySummaryRepository(IRecordRepository recordRepository)
         {
             this.recordRepository = recordRepository;
         }
 
-        public ExpenseSummary Get()
+        public Summary Get()
         {
             var records = this.recordRepository.FindAll();
             string[] recordIds = new string[records.Length];
@@ -22,7 +22,7 @@ namespace ExpenseInfrastructure
 
             var total = this.recordRepository.GetTotalRecord();
 
-            return new ExpenseSummary(recordIds, total.id);
+            return new Summary(recordIds, total.id);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace ExpenseInfrastructure
 {
-    public class SpreadsheetExpenseSummaryRepository : IExpenseSummaryRepository
+    public class SpreadsheetSummaryRepository : ISummaryRepository
     {
-        public ExpenseSummary Get()
+        public Summary Get()
         {
             // TODO API通信を行うため非同期処理が必要
             return null;

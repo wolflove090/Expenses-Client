@@ -1,6 +1,6 @@
 ﻿namespace ExpenseDomain
 {
-    public interface IExpenseSummaryNotification
+    public interface ISummaryNotification
     {
         void RecordIds(string[] ids);
         void TotalRecordId(string id);

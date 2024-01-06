@@ -74,7 +74,7 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
     }
 
     // レコード一覧を受け取って表示
-    public void OnShow(ExpenseRecordDataModel[] records)
+    public void OnShow(RecordDataModel[] records)
     {
         List<ExpensesListLabelController> tabList = new List<ExpensesListLabelController>();
         tabList.Add(this._ViewModel.Food);

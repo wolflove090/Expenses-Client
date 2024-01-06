@@ -1,7 +1,7 @@
 ﻿
 namespace ExpenseDomain
 {
-    public interface IExpenseRecordNotification
+    public interface IRecordNotification
     {
         void CategoryName(string name);
         void ConsumptionAmount(int amount);

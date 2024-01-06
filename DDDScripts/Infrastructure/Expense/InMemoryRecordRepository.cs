@@ -6,40 +6,40 @@ using ExpenseDomain;
 
 namespace ExpenseInfrastructure
 {
-    public class InMemoryExpenseRecordRepository : IExpenseRecordRepository
+    public class InMemoryRecordRepository : IRecordRepository
     {
-        ExpenseRecord[] records = null;
+        Record[] records = null;
 
-        ExpenseRecord total;
+        Record total;
 
-        public ExpenseRecord[] FindAll()
+        public Record[] FindAll()
         {
             if(this.records != null) return this.records;
 
             Debug.Log("FindAll");
 
             int recordNum = 3;
-            this.records = new ExpenseRecord[recordNum];
+            this.records = new Record[recordNum];
             for(int i = 0; i < recordNum; i++)
             {
                 int num = i + 1;
-                ExpenseRecord record = new ExpenseRecord($"カテゴリ{num}", 100 * num, 200 * num);
+                Record record = new Record($"カテゴリ{num}", 100 * num, 200 * num);
                 this.records[i] = record;
             }
 
             return this.records;
         }
 
-        public ExpenseRecord GetTotalRecord()
+        public Record GetTotalRecord()
         {
             if(this.total != null) return total;
 
-            this.total = new ExpenseRecord("合計", 1000, 2000);
+            this.total = new Record("合計", 1000, 2000);
 
             return this.total;
         } 
 
-        public ExpenseRecord Find(string id)
+        public Record Find(string id)
         {
             if(this.records == null) return null;
 

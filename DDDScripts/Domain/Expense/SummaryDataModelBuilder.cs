@@ -1,6 +1,6 @@
 ﻿namespace ExpenseDomain
 {
-    public class ExpenseSummaryDataModelBuilder : IExpenseSummaryNotification
+    public class SummaryDataModelBuilder : ISummaryNotification
     {
         string[] recordIds;
         string totalRecordId;
@@ -15,9 +15,9 @@
             this.recordIds = ids;
         }
 
-        public ExpenseSummaryDataModel Build()
+        public SummaryDataModel Build()
         {
-            return new ExpenseSummaryDataModel()
+            return new SummaryDataModel()
             {
                 recordIds = recordIds,
                 totalRecordId = this.totalRecordId,

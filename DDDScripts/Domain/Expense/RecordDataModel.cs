@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ExpenseDomain
 {
-    public class ExpenseRecordDataModel
+    public class RecordDataModel
     {
         public string categoryName;
         public int consumptionAmount;

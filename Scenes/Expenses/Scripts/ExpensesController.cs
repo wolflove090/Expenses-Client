@@ -101,8 +101,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     int _LabelIndex = -1;
     override protected void _OnStart()
     {
-        InMemoryExpenseRecordRepository recordRepository = new InMemoryExpenseRecordRepository();
-        this.expenseService= new ExpenseApplicationService(new InMemoryExpenseSummaryRepository(recordRepository), recordRepository);
+        InMemoryRecordRepository recordRepository = new InMemoryRecordRepository();
+        this.expenseService= new ExpenseApplicationService(new InMemorySummaryRepository(recordRepository), recordRepository);
 
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 

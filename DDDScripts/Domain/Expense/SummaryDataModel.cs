@@ -1,7 +1,7 @@
 ﻿
 namespace ExpenseDomain
 {
-    public class ExpenseSummaryDataModel
+    public class SummaryDataModel
     {
         public string[] recordIds;
         public string totalRecordId;

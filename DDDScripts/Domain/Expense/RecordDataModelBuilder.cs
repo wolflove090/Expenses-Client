@@ -1,6 +1,6 @@
 ﻿namespace ExpenseDomain
 {
-    public class ExpenseRecordDataModelBuilder : IExpenseRecordNotification
+    public class RecordDataModelBuilder : IRecordNotification
     {
         string categoryName;
         int consumptionAmount;
@@ -21,9 +21,9 @@
             this.consumptionAmount = amount;
         }
 
-        public ExpenseRecordDataModel Build()
+        public RecordDataModel Build()
         {
-            return new ExpenseRecordDataModel()
+            return new RecordDataModel()
             {
                 categoryName = this.categoryName,
                 consumptionAmount = this.consumptionAmount,
