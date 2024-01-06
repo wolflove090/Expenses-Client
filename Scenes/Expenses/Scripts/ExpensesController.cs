@@ -373,9 +373,10 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         // ---------- [テスト用]ドメイン情報で上書き ---------- //
         var summary = this.expenseService.GetSummary();
+        var totalRecord = this.expenseService.GetTotalRecord();
 
         // 合計金額
-        this._ViewModel.TotalAmountNum.text = summary.totalConsumptionAmount.ToString();
+        this._ViewModel.TotalAmountNum.text = totalRecord.consumptionAmount.ToString();
         this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
     }
 }
