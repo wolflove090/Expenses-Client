@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+using ExpenseDomain;
+
 public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
 {
     int _StartPos = -1000;
@@ -69,7 +71,14 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
         this._ViewModel.Total.Init(inData.totalAmount, inData.totalBorder);
 
         this._Show();
+    }
 
+    // テスト用に1つだけレコードを参照
+    public void OnShow(ExpenseRecordDataModel record)
+    {
+        this._ViewModel.Food.Init(record.consumptionAmount, record.border);
+
+        this._Show();
     }
 
     public void OnHide()

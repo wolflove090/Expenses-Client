@@ -95,9 +95,15 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     // 金額データ
     ExpensesData _ExpensesData;
 
+    // 家計簿サービス
+    ExpenseApplicationService expenseService;
+
     int _LabelIndex = -1;
     override protected void _OnStart()
     {
+        InMemoryExpenseRecordRepository recordRepository = new InMemoryExpenseRecordRepository();
+        this.expenseService= new ExpenseApplicationService(new InMemoryExpenseSummaryRepository(recordRepository), recordRepository);
+
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 
         {
@@ -212,7 +218,11 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         // ---------- リスト ---------- //
         this._ViewModel.ExpensesTab.OnClick = () => 
         {
-            this._ViewModel.ExpensesList.OnShow(this._ExpensesData);
+            // this._ViewModel.ExpensesList.OnShow(this._ExpensesData);
+
+            var summary = this.expenseService.GetSummary();
+            var record = this.expenseService.GetRecord(summary.recordId);
+            this._ViewModel.ExpensesList.OnShow(record);
         };
 
         // ---------- 送信ボタン設定 ---------- //
@@ -362,13 +372,10 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
 
         // ---------- [テスト用]ドメイン情報で上書き ---------- //
-        var service = new ExpenseApplicationService(new InMemoryExpenseSummaryRepository());
-        var summary = service.GetSummary();
+        var summary = this.expenseService.GetSummary();
 
         // 合計金額
         this._ViewModel.TotalAmountNum.text = summary.totalConsumptionAmount.ToString();
         this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
-
-
     }
 }
