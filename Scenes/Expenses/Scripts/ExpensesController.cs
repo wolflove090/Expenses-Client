@@ -157,11 +157,12 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         // ---------- 送信ボタン設定 ---------- //
 
-        // this._ViewModel.UpdateButton.OnClick = () => 
-        // {
-        //     Debug.Log("get");
-        //     StartCoroutine(this.GetRequest());
-        // };
+        this._ViewModel.UpdateButton.OnClick = () => 
+        {
+            // Debug.Log("get");
+            // StartCoroutine(this.GetRequest());
+            this._UpdateExpensesLabel();
+        };
 
         this._ViewModel.PostButton.OnClick = () => 
         {
@@ -229,12 +230,12 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         // 合計金額
         this._ViewModel.TotalAmountNum.text = totalRecord.consumptionAmount.ToString();
-        this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
+        this._ViewModel.TotalAmountNum.color = totalRecord.GetLabelColor();
 
         // お小遣い
         this._ViewModel.TatsukiAllowanceNum.text = husbandRecord.consumptionAmount.ToString();
-        this._ViewModel.TatsukiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.tatsukiAmount, this._ExpensesData.tatsukiBorder);
+        this._ViewModel.TatsukiAllowanceNum.color = husbandRecord.GetLabelColor();
         this._ViewModel.AkiAllowanceNum.text = wifeRecord.consumptionAmount.ToString();
-        this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
+        this._ViewModel.AkiAllowanceNum.color = wifeRecord.GetLabelColor();
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ExpenseDomain;
+
 public class ExpensesListLabelController : ControllerBase<ExpensesListLabelViewModel>
 {
     override protected void _OnStart()
@@ -9,10 +11,10 @@ public class ExpensesListLabelController : ControllerBase<ExpensesListLabelViewM
 
     }
 
-    public void Init(int inAmount, int inBorder)
+    public void Init(RecordDataModel record)
     {
-        this._ViewModel.AmountNum.text = (inBorder - inAmount).ToString();
-        this._ViewModel.AmountNum.color = ExpensesUtil._GetLabelColor(inAmount, inBorder);
-        this._ViewModel.BorderNum.text = inBorder.ToString();
+        this._ViewModel.AmountNum.text = (record.border - record.consumptionAmount).ToString();
+        this._ViewModel.AmountNum.color = record.GetLabelColor();
+        this._ViewModel.BorderNum.text = record.border.ToString();
     }
 }
