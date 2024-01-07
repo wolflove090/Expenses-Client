@@ -16,20 +16,21 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
     void _SetUp()
     {
+        SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
+        recordRepository.SetUp(null);
+        this.expenseService = new ExpenseApplicationService(recordRepository, new SpreadsheetPocketMoneyRecordRepository(recordRepository));
+    }
+
+    override protected void _OnStart()
+    {
+        this._SetUp();
+
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 
         {
             if(type == LogType.Exception)
                 this._ViewModel.ErrorDialogue.OnShow(logString);
         };
-
-        SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
-        recordRepository.SetUp(null);
-        this.expenseService = new ExpenseApplicationService(recordRepository, new SpreadsheetPocketMoneyRecordRepository(recordRepository));
-    }
-
-    void _SetUpLabel()
-    {
 
         // ---------- ラベル設定 ---------- //
 
@@ -73,10 +74,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.LabelToggle.SetActive(false);
 
         this._ViewModel.LabelGroup.Init();
-    }
 
-    void _SetUpRegistButton()
-    {
         // ---------- 数値表示 ---------- //
 
         this._ViewModel.ValueNum.text = this._GetValue().ToString("D5");
@@ -135,27 +133,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             };
         }
         this._ViewModel.UpButton.gameObject.SetActive(false);
-        this._ViewModel.DownButton.gameObject.SetActive(false);    
+        this._ViewModel.DownButton.gameObject.SetActive(false);        
 
-        // 送信ボタン
-        this._ViewModel.PostButton.OnClick = () => 
-        {
-            if(this.selectCategory == null)
-                throw new System.Exception("ラベルが選択されていません");
-
-            Debug.Log(selectCategory.name);
-            this.expenseService.Regist(selectCategory.name, this._GetValue());
-        };
-
-        // リセットボタン
-        this._ViewModel.ResetButton.OnClick = () => 
-        {
-            this._ResetInput();
-        };
-    }
-
-    void SetUpList()
-    {
         // ---------- リスト ---------- //
         this._ViewModel.ExpensesTab.OnClick = () => 
         {
@@ -167,21 +146,28 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
             this._ViewModel.ExpensesList.OnShow(records, total, husband, wife);
         };
-    }
 
-    override protected void _OnStart()
-    {
-        this._SetUp();
-        this._SetUpLabel();
-        this._SetUpRegistButton();
-        this.SetUpList();
+        // ---------- 送信ボタン設定 ---------- //
 
-        // 更新ボタン
         this._ViewModel.UpdateButton.OnClick = () => 
         {
             // Debug.Log("get");
             // StartCoroutine(this.GetRequest());
             this._UpdateExpensesLabel();
+        };
+
+        this._ViewModel.PostButton.OnClick = () => 
+        {
+            if(this.selectCategory == null)
+                throw new System.Exception("ラベルが選択されていません");
+
+            Debug.Log(selectCategory.name);
+            this.expenseService.Regist(selectCategory.name, this._GetValue());
+        };
+
+        this._ViewModel.ResetButton.OnClick = () => 
+        {
+            this._ResetInput();
         };
     }
 
