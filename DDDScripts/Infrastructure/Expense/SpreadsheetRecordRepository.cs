@@ -89,8 +89,8 @@ namespace ExpenseInfrastructure
         {
             List<Record> records = new List<Record>();
             records.Add(new Record("食費", data.foodAmount, data.foodBorder));
-            records.Add(new Record("ガソリン", data.gasolineAmount, data.gasolineAmount));
             records.Add(new Record("コストコ", data.costcoAmount, data.costcoBorder));
+            records.Add(new Record("ガソリン", data.gasolineAmount, data.gasolineBorder));
             records.Add(new Record("日用品", data.itemAmount, data.itemBorder));
             records.Add(new Record("外食", data.restaurantAmount, data.restaurantBorder));
             records.Add(new Record("コンビニ", data.convenienceAmount, data.convenienceBorder));
