@@ -27,11 +27,6 @@ namespace ExpenseInfrastructure
             return this.records.ToArray();
         }
 
-        public Record GetSumRecord()
-        {
-            return this.records.Last();
-        }
-
         public ExpensesData GetBasicData()
         {
             return this.basicData;

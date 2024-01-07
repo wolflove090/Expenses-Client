@@ -1,47 +1,30 @@
 ﻿using ExpenseDomain;
+using ExpenseDomain.Service;
 
 namespace ExpenseApplication
 {
     public class ExpenseApplicationService
     {
-        // readonly ISummaryRepository summaryRepository;
         readonly IRecordRepository recordRepository;
         readonly IPocketMoneyRecordRepository pocketMoneyRepository;
 
+        readonly ExpenseService expenseService;
+
         public ExpenseApplicationService(IRecordRepository recordRepository, IPocketMoneyRecordRepository pocketMoneyRepository)
         {
-            // this.summaryRepository = summaryRepository;
             this.recordRepository = recordRepository;
             this.pocketMoneyRepository = pocketMoneyRepository;
+            this.expenseService = new ExpenseService(this.recordRepository);
         }
 
-        // public SummaryDataModel GetSummary()
-        // {
-        //     var builder = new SummaryDataModelBuilder();
-        //     var summary =  this.summaryRepository.Get();
-        //     summary.Notify(builder);
-
-        //     return builder.Build();
-        // }
-
-        // public RecordDataModel GetRecord(string id)
-        // {
-        //     var builder = new RecordDataModelBuilder();
-        //     var record = this.recordRepository.Find(id);
-        //     record.Notify(builder);
-
-        //     return builder.Build();
-        // }
 
         public RecordDataModel[] GetRecords()
         {
             var builder = new RecordDataModelBuilder();
-            // var summary = this.GetSummary();
             var records = this.recordRepository.FindAll();
             var recordModels = new RecordDataModel[records.Length];
             for(int i = 0; i < records.Length; i++)
             {
-                // string id = summary.recordIds[i];
                 var record = records[i];
                 record.Notify(builder);
 
@@ -53,7 +36,7 @@ namespace ExpenseApplication
 
         public RecordDataModel GetTotalRecord()
         {
-            Record record = this.recordRepository.GetSumRecord();
+            Record record = this.expenseService.GetSumExpenseRecord();
             return this._BuildRecordData(record);
         }
 

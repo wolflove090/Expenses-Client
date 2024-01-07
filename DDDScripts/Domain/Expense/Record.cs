@@ -32,5 +32,18 @@ namespace ExpenseDomain
             if(ReferenceEquals(this, other)) return true;
             return Equals(id, other.id);
         }
+
+        public static Record Sum(Record[] targets)
+        {
+            int consumptionAmount = 0;
+            int border = 0;
+            foreach(Record record in targets)
+            {
+                consumptionAmount += record.consumptionAmount;
+                border += record.border;
+            }
+
+            return new Record("合計", consumptionAmount, border);
+        }
     }
 }
