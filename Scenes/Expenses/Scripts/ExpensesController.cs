@@ -9,14 +9,6 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     int[] _ValueArray = new int[5]{0,0,0,0,0};
     bool _IsMinus;
 
-    // 金額のテキストカラー設定
-    Color _DefaultColor = new Color(0,0.7f,0.04f, 1);
-    Color _DengerColor = new Color(1,0.5f,0,1);
-    Color _OverColor = new Color(1,0,0,1);
-
-    // 金額データ
-    ExpensesData _ExpensesData;
-
     // 家計簿サービス
     ExpenseApplicationService expenseService;
 
@@ -24,21 +16,20 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
     void _SetUp()
     {
-        SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
-        recordRepository.SetUp(null);
-        this.expenseService = new ExpenseApplicationService(recordRepository, new SpreadsheetPocketMoneyRecordRepository(recordRepository));
-    }
-
-    override protected void _OnStart()
-    {
-        this._SetUp();
-
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 
         {
             if(type == LogType.Exception)
                 this._ViewModel.ErrorDialogue.OnShow(logString);
         };
+
+        SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
+        recordRepository.SetUp(null);
+        this.expenseService = new ExpenseApplicationService(recordRepository, new SpreadsheetPocketMoneyRecordRepository(recordRepository));
+    }
+
+    void _SetUpLabel()
+    {
 
         // ---------- ラベル設定 ---------- //
 
@@ -82,7 +73,10 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.LabelToggle.SetActive(false);
 
         this._ViewModel.LabelGroup.Init();
+    }
 
+    void _SetUpRegistButton()
+    {
         // ---------- 数値表示 ---------- //
 
         this._ViewModel.ValueNum.text = this._GetValue().ToString("D5");
@@ -141,8 +135,27 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             };
         }
         this._ViewModel.UpButton.gameObject.SetActive(false);
-        this._ViewModel.DownButton.gameObject.SetActive(false);        
+        this._ViewModel.DownButton.gameObject.SetActive(false);    
 
+        // 送信ボタン
+        this._ViewModel.PostButton.OnClick = () => 
+        {
+            if(this.selectCategory == null)
+                throw new System.Exception("ラベルが選択されていません");
+
+            Debug.Log(selectCategory.name);
+            this.expenseService.Regist(selectCategory.name, this._GetValue());
+        };
+
+        // リセットボタン
+        this._ViewModel.ResetButton.OnClick = () => 
+        {
+            this._ResetInput();
+        };
+    }
+
+    void SetUpList()
+    {
         // ---------- リスト ---------- //
         this._ViewModel.ExpensesTab.OnClick = () => 
         {
@@ -154,28 +167,21 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
             this._ViewModel.ExpensesList.OnShow(records, total, husband, wife);
         };
+    }
 
-        // ---------- 送信ボタン設定 ---------- //
+    override protected void _OnStart()
+    {
+        this._SetUp();
+        this._SetUpLabel();
+        this._SetUpRegistButton();
+        this.SetUpList();
 
+        // 更新ボタン
         this._ViewModel.UpdateButton.OnClick = () => 
         {
             // Debug.Log("get");
             // StartCoroutine(this.GetRequest());
             this._UpdateExpensesLabel();
-        };
-
-        this._ViewModel.PostButton.OnClick = () => 
-        {
-            if(this.selectCategory == null)
-                throw new System.Exception("ラベルが選択されていません");
-
-            Debug.Log(selectCategory.name);
-            this.expenseService.Regist(selectCategory.name, this._GetValue());
-        };
-
-        this._ViewModel.ResetButton.OnClick = () => 
-        {
-            this._ResetInput();
         };
     }
 
@@ -229,13 +235,13 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         var wifeRecord = this.expenseService.GetWifePocketMoney();
 
         // 合計金額
-        this._ViewModel.TotalAmountNum.text = totalRecord.consumptionAmount.ToString();
+        this._ViewModel.TotalAmountNum.text = totalRecord.budgetRemaining.ToString();
         this._ViewModel.TotalAmountNum.color = totalRecord.GetLabelColor();
 
         // お小遣い
-        this._ViewModel.TatsukiAllowanceNum.text = husbandRecord.consumptionAmount.ToString();
+        this._ViewModel.TatsukiAllowanceNum.text = husbandRecord.budgetRemaining.ToString();
         this._ViewModel.TatsukiAllowanceNum.color = husbandRecord.GetLabelColor();
-        this._ViewModel.AkiAllowanceNum.text = wifeRecord.consumptionAmount.ToString();
+        this._ViewModel.AkiAllowanceNum.text = wifeRecord.budgetRemaining.ToString();
         this._ViewModel.AkiAllowanceNum.color = wifeRecord.GetLabelColor();
     }
 }

@@ -7,6 +7,7 @@ namespace ExpenseDomain
         public CategoryDataModel category;
         public int consumptionAmount;
         public int border;
+        public int budgetRemaining;
 
         public Color GetLabelColor()
         {

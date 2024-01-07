@@ -5,6 +5,7 @@
         Category category;
         int consumptionAmount;
         int border;
+        int budgetRemaining;
 
         public void Border(int border)
         {
@@ -21,6 +22,11 @@
             this.consumptionAmount = amount;
         }
 
+        public void BudgetRemaining(int remaining)
+        {
+            this.budgetRemaining = remaining;
+        }
+
         public RecordDataModel Build()
         {
             var builder = new CategoryDataModelBuilder();
@@ -31,6 +37,7 @@
                 category = builder.Build(),
                 consumptionAmount = this.consumptionAmount,
                 border = this.border,
+                budgetRemaining = this.budgetRemaining,
             };
         }
     }

@@ -10,6 +10,8 @@ namespace ExpenseDomain
         readonly int consumptionAmount;
         readonly int border;
 
+        public int budgetRemaining => this.border - this.consumptionAmount;
+
         public Record(string categoryName, int amount, int border)
         {
             this.id = Guid.NewGuid().ToString();
@@ -24,6 +26,7 @@ namespace ExpenseDomain
             note.Category(this.category);
             note.ConsumptionAmount(this.consumptionAmount);
             note.Border(this.border);
+            note.BudgetRemaining(this.budgetRemaining);
         }
 
         public bool Equals(Record other)
