@@ -33,6 +33,22 @@ namespace ExpenseApplication
             return recordModels;
         }
 
+        public CategoryDataModel[] GetCategories()
+        {
+            var builder = new CategoryDataModelBuilder();
+            var categories = this.expenseService.GetCategories();
+            var categoryModels = new CategoryDataModel[categories.Length];
+            for(int i = 0; i < categories.Length; i++)
+            {
+                var category = categories[i];
+                category.Notify(builder);
+
+                categoryModels[i] = builder.Build();
+            }
+
+            return categoryModels;
+        }
+
         public RecordDataModel GetTotalRecord()
         {
             Record record = this.expenseService.GetSumExpenseRecord();

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+using ExpenseDomain;
 using ExpenseApplication;
 using ExpenseInfrastructure;
 
@@ -71,10 +72,11 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         };
 
         // ラベル生成
-        int count = 0;
-        foreach(var button in this._buttons)
+        var categories = this.expenseService.GetCategories();
+        for(int i = 0; i < categories.Length; i++)
         {
-            int index = count;
+            var category = categories[i];
+            int index = i;
             var toggle = GameObject.Instantiate(this._ViewModel.LabelToggle, this._ViewModel.LabelGroup.gameObject.transform).GetComponent<ExpensesToggle>();
             toggle.Init();
             toggle.OnChange = (isOn) => 
@@ -84,11 +86,9 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
                 else
                     this._LabelIndex = -1;
             };
-            var icon = Resources.Load<Sprite>(button._iconName);
-            toggle.Label = button._label;
+            var icon = Resources.Load<Sprite>(category.iconName);
+            toggle.Label = category.name;
             toggle.Icon = icon;
-            
-            count++;
         }
 
         this._ViewModel.LabelToggle.SetActive(false);
