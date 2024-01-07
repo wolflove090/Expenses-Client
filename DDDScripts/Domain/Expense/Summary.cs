@@ -12,8 +12,12 @@ namespace ExpenseDomain
         readonly string husbandRecordId;
         readonly string wifeRecordId;
 
-        // お小遣い
+        readonly Record[] records;
+        readonly Record totalRecord;
+        readonly Record husbandRecord;
+        readonly Record wifeRecord;
 
+        // TODO 消す 
         public Summary(string[] recordIds, string totalRecordId, string husbandRecordId, string wifeRecordId)
         {
             this.id = Guid.NewGuid().ToString();
@@ -21,6 +25,14 @@ namespace ExpenseDomain
             this.totalRecordId = totalRecordId;
             this.husbandRecordId = husbandRecordId;
             this.wifeRecordId = wifeRecordId;
+        }
+
+        public Summary(Record[] records, Record total, Record husband, Record wife)
+        {
+            this.records = records;
+            this.totalRecord = total;
+            this.husbandRecord = husband;
+            this.wifeRecord = wife;
         }
 
         public void Notify(ISummaryNotification note)

@@ -9,6 +9,7 @@ namespace ExpenseInfrastructure
     public class InMemoryRecordRepository : IRecordRepository
     {
         Record[] records = null;
+        List<Record> recordList = new List<Record>();
 
         Record total;
         Record husbandPocketMoney;
@@ -32,7 +33,7 @@ namespace ExpenseInfrastructure
             return this.records;
         }
 
-        public Record GetTotalRecord()
+        public Record GetSumRecord()
         {
             if(this.total != null) return total;
 

@@ -20,11 +20,11 @@ namespace ExpenseInfrastructure
                 recordIds[i] = records[i].id;
             }
 
-            var total = this.recordRepository.GetTotalRecord();
-            var husband = this.recordRepository.GetHusbandPocketMoney();
-            var wife = this.recordRepository.GetWifePocketMoney();
+            var total = this.recordRepository.GetSumRecord();
+            // var husband = this.recordRepository.GetHusbandPocketMoney();
+            // var wife = this.recordRepository.GetWifePocketMoney();
 
-            return new Summary(recordIds, total.id, husband.id, wife.id);
+            return new Summary(recordIds, total.id, "","");
         }
     }
 }

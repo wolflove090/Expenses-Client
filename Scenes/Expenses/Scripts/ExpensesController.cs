@@ -101,8 +101,9 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     int _LabelIndex = -1;
     override protected void _OnStart()
     {
-        InMemoryRecordRepository recordRepository = new InMemoryRecordRepository();
-        this.expenseService= new ExpenseApplicationService(new InMemorySummaryRepository(recordRepository), recordRepository);
+        SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
+        recordRepository.SetUp(null);
+        this.expenseService = new ExpenseApplicationService(recordRepository);
 
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 
@@ -220,15 +221,15 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         {
             // this._ViewModel.ExpensesList.OnShow(this._ExpensesData);
 
-            var summary = this.expenseService.GetSummary();
+            // var summary = this.expenseService.GetSummary();
 
             var records = this.expenseService.GetRecords();
             
             var total = this.expenseService.GetTotalRecord();
-            var husband = this.expenseService.GetHusbandPocketMoney();
-            var wife = this.expenseService.GetWifePocketMoney();
+            // var husband = this.expenseService.GetHusbandPocketMoney();
+            // var wife = this.expenseService.GetWifePocketMoney();
 
-            this._ViewModel.ExpensesList.OnShow(records, total, husband, wife);
+            this._ViewModel.ExpensesList.OnShow(records, total, null, null);
         };
 
         // ---------- 送信ボタン設定 ---------- //
@@ -251,7 +252,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         };
 
         // ---------- 初期通信 ---------- //
-        StartCoroutine(this.GetRequest());
+        // StartCoroutine(this.GetRequest());
     }
 
     void _SetValueFromIndex(int inIndex, int inValue)
@@ -378,19 +379,20 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
 
         // ---------- [テスト用]ドメイン情報で上書き ---------- //
-        var summary = this.expenseService.GetSummary();
+        
+        // var summary = this.expenseService.GetSummary();
         var totalRecord = this.expenseService.GetTotalRecord();
-        var husbandRecord = this.expenseService.GetHusbandPocketMoney();
-        var wifeRecord = this.expenseService.GetWifePocketMoney();
+        // var husbandRecord = this.expenseService.GetHusbandPocketMoney();
+        // var wifeRecord = this.expenseService.GetWifePocketMoney();
 
         // 合計金額
         this._ViewModel.TotalAmountNum.text = totalRecord.consumptionAmount.ToString();
         this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
 
         // お小遣い
-        this._ViewModel.TatsukiAllowanceNum.text = husbandRecord.consumptionAmount.ToString();
-        this._ViewModel.TatsukiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.tatsukiAmount, this._ExpensesData.tatsukiBorder);
-        this._ViewModel.AkiAllowanceNum.text = wifeRecord.consumptionAmount.ToString();
-        this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
+        // this._ViewModel.TatsukiAllowanceNum.text = husbandRecord.consumptionAmount.ToString();
+        // this._ViewModel.TatsukiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.tatsukiAmount, this._ExpensesData.tatsukiBorder);
+        // this._ViewModel.AkiAllowanceNum.text = wifeRecord.consumptionAmount.ToString();
+        // this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
     }
 }

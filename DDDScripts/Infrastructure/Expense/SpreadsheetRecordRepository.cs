@@ -2,13 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Linq;
 
 using ExpenseDomain;
 
 namespace ExpenseInfrastructure
 {
-    public class SpreadsheetSummaryRepository : ISummaryRepository
+    public class SpreadsheetRecordRepository : IRecordRepository
     {
+        // ==================== public ==================== //
+
+        public void SetUp(System.Action onComplete)
+        {
+            CoroutineManager.Run(this.GetRequest(), onComplete);
+        }
+
+
+        public Record Find(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Record[] FindAll()
+        {
+            return this.records.ToArray();
+        }
+
+        public Record GetSumRecord()
+        {
+            return this.records.Last();
+        }
+
+        // ==================== private ==================== //
+
+        List<Record> records = new List<Record>();
+
         // APIパス
         // 非公開フォルダにパスを記述
         string _ApiUrlValue;
@@ -24,20 +52,6 @@ namespace ExpenseInfrastructure
 
                 return this._ApiUrlValue;
             }
-        }
-
-        Summary sumamry;
-
-        public void SetUp(System.Action onComplete)
-        {
-            CoroutineManager.Run(this.GetRequest(), onComplete);
-        }
-
-        public Summary Get()
-        {
-
-            // TODO API通信を行うため非同期処理が必要
-            return null;
         }
 
         IEnumerator GetRequest()
@@ -60,14 +74,13 @@ namespace ExpenseInfrastructure
                 {
                     Debug.Log("sucess = " + webRequest.downloadHandler.text);
                     var data = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
-                    this.sumamry = ConvertToSummary(data);
-
+                    this.records = this.ConvertFrom(data);
                     // this._UpdateExpensesLabel(webRequest.downloadHandler.text);
                 }
             }
         }
 
-        Summary ConvertToSummary(ExpensesData data)
+        List<Record> ConvertFrom(ExpensesData data)
         {
             List<Record> records = new List<Record>();
             records.Add(new Record("食費", data.foodAmount, data.foodBorder));
@@ -84,12 +97,12 @@ namespace ExpenseInfrastructure
             records.Add(new Record("教養", data.studyAmount, data.studyBorder));
             records.Add(new Record("交際費", data.presentAmount, data.presentBorder));
 
-            var husband = new Record("夫お小遣い", data.tatsukiAmount, data.tatsukiBorder);
-            var wife = new Record("妻お小遣い", data.akiAmount, data.akiBorder);
+            // var husband = new Record("夫お小遣い", data.tatsukiAmount, data.tatsukiBorder);
+            // var wife = new Record("妻お小遣い", data.akiAmount, data.akiBorder);
 
-            var total = new Record("合計", data.totalAmount, data.totalBorder);
+            // var total = new Record("合計", data.totalAmount, data.totalBorder);
 
-            return new Summary(records.ToArray(), total, husband, wife);
+            return records;
         }
     }
 }
