@@ -13,27 +13,14 @@ namespace ExpenseInfrastructure
 
         public Record GetHusbandPocketMoney()
         {
-            if(this.husbandPocketMoney == null)
-            {
-                var data = this._recordRepository.GetBasicData();
-                this.husbandPocketMoney = new Record("夫お小遣い", data.tatsukiAmount, data.tatsukiBorder);
-            } 
-
-            return this.husbandPocketMoney;
+            var data = this._recordRepository.GetBasicData();
+            return new Record("夫お小遣い", data.tatsukiAmount, data.tatsukiBorder);
         }
 
         public Record GetWifePocketMoney()
         {
-            if(this.wifePocketMoney == null)
-            {
-                var data = this._recordRepository.GetBasicData();
-                this.wifePocketMoney = new Record("妻お小遣い", data.akiAmount, data.akiBorder);
-            }
-
-            return this.wifePocketMoney;
+            var data = this._recordRepository.GetBasicData();
+            return new Record("妻お小遣い", data.akiAmount, data.akiBorder);
         }
-
-        Record husbandPocketMoney;
-        Record wifePocketMoney;
     }
 }

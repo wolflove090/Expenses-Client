@@ -80,6 +80,11 @@ namespace ExpenseInfrastructure
 
             return null;
         }
+
+        public void Regist(string categoryName, int amount)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

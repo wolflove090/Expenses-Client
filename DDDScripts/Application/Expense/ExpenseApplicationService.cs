@@ -17,7 +17,6 @@ namespace ExpenseApplication
             this.expenseService = new ExpenseService(this.recordRepository);
         }
 
-
         public RecordDataModel[] GetRecords()
         {
             var builder = new RecordDataModelBuilder();
@@ -52,9 +51,9 @@ namespace ExpenseApplication
             return this._BuildRecordData(record);
         }
 
-        public void Recording()
+        public void Regist(string categoryName, int amount)
         {
-            
+            this.recordRepository.Regist(categoryName, amount);
         }
 
         RecordDataModel _BuildRecordData(Record record)

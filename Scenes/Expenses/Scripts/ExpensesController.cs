@@ -194,10 +194,13 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         //     StartCoroutine(this.GetRequest());
         // };
 
-        // this._ViewModel.PostButton.OnClick = () => {
-        //     Debug.Log("post");
-        //     StartCoroutine(this.PostRequest());
-        // };
+        this._ViewModel.PostButton.OnClick = () => 
+        {
+            if(this._LabelIndex < 0)
+                throw new System.Exception("ラベルが選択されていません");
+
+            this.expenseService.Regist(this._buttons[this._LabelIndex]._label, this._GetValue());
+        };
 
         this._ViewModel.ResetButton.OnClick = () => 
         {

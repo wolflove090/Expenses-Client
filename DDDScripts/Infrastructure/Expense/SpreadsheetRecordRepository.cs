@@ -32,6 +32,11 @@ namespace ExpenseInfrastructure
             return this.basicData;
         }
 
+        public void Regist(string categoryName, int amount)
+        {
+            CoroutineManager.Run(this.PostRequest(categoryName, amount));
+        }
+
         // ==================== private ==================== //
 
         ExpensesData basicData;
@@ -76,6 +81,50 @@ namespace ExpenseInfrastructure
                     this.basicData = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
                     this.records = this.ConvertFrom(this.basicData);
                     // this._UpdateExpensesLabel(webRequest.downloadHandler.text);
+                }
+            }
+        }
+
+
+        IEnumerator PostRequest(string categoryName, int amount)
+        {
+            if(string.IsNullOrEmpty(categoryName))
+            {
+                throw new System.Exception("カテゴリが指定されていません");
+            }
+
+            string url = this._ApiUrl;
+            string labelParam = "label=" + categoryName;
+            string expensesParam = "&expenses=" + amount.ToString();
+            string debugParam = "&isDebug=";
+
+    // エディタのみデバック機能を有効化
+    #if UNITY_EDITOR
+            debugParam += "FALSE";
+    #else
+            debugParam += "FALSE";
+    #endif
+
+            url += labelParam + expensesParam + debugParam;
+
+            WWWForm form = new WWWForm();
+
+            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+            {
+                Debug.Log("登録通信開始");
+                yield return webRequest.SendWebRequest();
+                
+                Debug.Log("登録通信完了");
+
+                if(webRequest.isNetworkError)
+                {
+                    Debug.Log("error = " + webRequest.error);
+                }
+                else
+                {
+                    Debug.Log("sucess = " + webRequest.downloadHandler.text);
+                    this.basicData = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
+                    this.records = this.ConvertFrom(this.basicData);
                 }
             }
         }
