@@ -20,23 +20,6 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     bool _IsMinus;
     IButton[] _buttons = {new Food(), new Costco(), new Gasoline(), new Item(), new Restaurant(), new Convenience(), new Lunch(), new Beauty(),new Helth(),new Game(),new Entertainment(),new Study(),new Present(),new Tatsuki(),new Aki()};
 
-    // APIパス
-    // 非公開フォルダにパスを記述
-    // string _ApiUrl
-    // {
-    //     get
-    //     {
-    //         if(string.IsNullOrEmpty(this._ApiUrlValue))
-    //         {
-    //             var pathAsset = Resources.Load<TextAsset>("PrivateFiles/ApiPath");     
-    //             this._ApiUrlValue = pathAsset.text;
-    //         }
-
-    //         return this._ApiUrlValue;
-    //     }
-    // }
-    // string _ApiUrlValue;
-
     // 金額のテキストカラー設定
     Color _DefaultColor = new Color(0,0.7f,0.04f, 1);
     Color _DengerColor = new Color(1,0.5f,0,1);
@@ -204,12 +187,8 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         this._ViewModel.ResetButton.OnClick = () => 
         {
-            Debug.Log("reset");
             this._ResetInput();
         };
-
-        // ---------- 初期通信 ---------- //
-        // StartCoroutine(this.GetRequest());
     }
 
     void _SetValueFromIndex(int inIndex, int inValue)
@@ -253,66 +232,9 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.ValueNum.text = this._GetValue().ToString("D5");
     }
 
-//     IEnumerator PostRequest()
-//     {
-//         if(this._LabelIndex < 0)
-//             throw new System.Exception("ラベルが選択されていません");
-
-//         Debug.Log(this._LabelIndex);
-
-//         string url = this._ApiUrl;
-//         string labelParam = "label=" + this._buttons[this._LabelIndex]._label;
-//         string expensesParam = "&expenses=" + this._GetValue().ToString();
-//         string debugParam = "&isDebug=";
-
-// // エディタのみデバック機能を有効化
-// #if UNITY_EDITOR
-//         debugParam += "FALSE";
-// #else
-//         debugParam += "FALSE";
-// #endif
-
-//         url += labelParam + expensesParam + debugParam;
-
-//         WWWForm form = new WWWForm();
-
-//         using(UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
-//         {
-//             this._ViewModel.SimpleDialogue.OnShow("通信中です...");
-//             yield return webRequest.SendWebRequest();
-//             this._ViewModel.SimpleDialogue.OnHide();
-
-//             if(webRequest.isNetworkError)
-//             {
-//                 Debug.Log("error = " + webRequest.error);
-//             }
-//             else
-//             {
-//                 Debug.Log("sucess = " + webRequest.downloadHandler.text);
-//                 this._UpdateExpensesLabel(webRequest.downloadHandler.text);
-//                 this._ResetImput();
-
-//             }
-//         }
-//     }
-
-    void _UpdateExpensesLabel(string inJson)
+    void _UpdateExpensesLabel()
     {
-        this._ExpensesData = JsonUtility.FromJson<ExpensesData>(inJson);
-
         // ---------- 表示の更新 ---------- //
-
-        // 合計金額
-        this._ViewModel.TotalAmountNum.text = (this._ExpensesData.totalBorder - this._ExpensesData.totalAmount).ToString();
-        this._ViewModel.TotalAmountNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.totalAmount, this._ExpensesData.totalBorder);
-
-        // お小遣い
-        this._ViewModel.TatsukiAllowanceNum.text = (this._ExpensesData.tatsukiBorder - this._ExpensesData.tatsukiAmount).ToString();
-        this._ViewModel.TatsukiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.tatsukiAmount, this._ExpensesData.tatsukiBorder);
-        this._ViewModel.AkiAllowanceNum.text = (this._ExpensesData.akiBorder - this._ExpensesData.akiAmount).ToString();
-        this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
-
-        // ---------- [テスト用]ドメイン情報で上書き ---------- //
 
         var totalRecord = this.expenseService.GetTotalRecord();
         var husbandRecord = this.expenseService.GetHusbandPocketMoney();
