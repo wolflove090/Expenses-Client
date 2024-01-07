@@ -22,20 +22,20 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
     // APIパス
     // 非公開フォルダにパスを記述
-    string _ApiUrl
-    {
-        get
-        {
-            if(string.IsNullOrEmpty(this._ApiUrlValue))
-            {
-                var pathAsset = Resources.Load<TextAsset>("PrivateFiles/ApiPath");     
-                this._ApiUrlValue = pathAsset.text;
-            }
+    // string _ApiUrl
+    // {
+    //     get
+    //     {
+    //         if(string.IsNullOrEmpty(this._ApiUrlValue))
+    //         {
+    //             var pathAsset = Resources.Load<TextAsset>("PrivateFiles/ApiPath");     
+    //             this._ApiUrlValue = pathAsset.text;
+    //         }
 
-            return this._ApiUrlValue;
-        }
-    }
-    string _ApiUrlValue;
+    //         return this._ApiUrlValue;
+    //     }
+    // }
+    // string _ApiUrlValue;
 
     // 金額のテキストカラー設定
     Color _DefaultColor = new Color(0,0.7f,0.04f, 1);
@@ -184,21 +184,21 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         // ---------- 送信ボタン設定 ---------- //
 
-        this._ViewModel.UpdateButton.OnClick = () => 
-        {
-            Debug.Log("get");
-            StartCoroutine(this.GetRequest());
-        };
+        // this._ViewModel.UpdateButton.OnClick = () => 
+        // {
+        //     Debug.Log("get");
+        //     StartCoroutine(this.GetRequest());
+        // };
 
-        this._ViewModel.PostButton.OnClick = () => {
-            Debug.Log("post");
-            StartCoroutine(this.PostRequest());
-        };
+        // this._ViewModel.PostButton.OnClick = () => {
+        //     Debug.Log("post");
+        //     StartCoroutine(this.PostRequest());
+        // };
 
         this._ViewModel.ResetButton.OnClick = () => 
         {
             Debug.Log("reset");
-            this._ResetImput();
+            this._ResetInput();
         };
 
         // ---------- 初期通信 ---------- //
@@ -233,7 +233,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     }
 
     // 入力項目のリセット
-    void _ResetImput()
+    void _ResetInput()
     {
         this._LabelIndex = -1;
         this._ValueArray = new int[5]{0,0,0,0,0};
@@ -246,71 +246,48 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.ValueNum.text = this._GetValue().ToString("D5");
     }
 
-    IEnumerator GetRequest()
-    {
-        string url = this._ApiUrl;
+//     IEnumerator PostRequest()
+//     {
+//         if(this._LabelIndex < 0)
+//             throw new System.Exception("ラベルが選択されていません");
 
-        using(UnityWebRequest webRequest = UnityWebRequest.Get(url))
-        {
-            this._ViewModel.SimpleDialogue.OnShow("通信中です...");
-            yield return webRequest.SendWebRequest();
-            this._ViewModel.SimpleDialogue.OnHide();
+//         Debug.Log(this._LabelIndex);
 
-            if(webRequest.isNetworkError)
-            {
-                Debug.Log("error = " + webRequest.error);
-            }
-            else
-            {
-                Debug.Log("sucess = " + webRequest.downloadHandler.text);
-                this._ExpensesData = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
-                this._UpdateExpensesLabel(webRequest.downloadHandler.text);
-            }
-        }
-    }
+//         string url = this._ApiUrl;
+//         string labelParam = "label=" + this._buttons[this._LabelIndex]._label;
+//         string expensesParam = "&expenses=" + this._GetValue().ToString();
+//         string debugParam = "&isDebug=";
 
-    IEnumerator PostRequest()
-    {
-        if(this._LabelIndex < 0)
-            throw new System.Exception("ラベルが選択されていません");
+// // エディタのみデバック機能を有効化
+// #if UNITY_EDITOR
+//         debugParam += "FALSE";
+// #else
+//         debugParam += "FALSE";
+// #endif
 
-        Debug.Log(this._LabelIndex);
+//         url += labelParam + expensesParam + debugParam;
 
-        string url = this._ApiUrl;
-        string labelParam = "label=" + this._buttons[this._LabelIndex]._label;
-        string expensesParam = "&expenses=" + this._GetValue().ToString();
-        string debugParam = "&isDebug=";
+//         WWWForm form = new WWWForm();
 
-// エディタのみデバック機能を有効化
-#if UNITY_EDITOR
-        debugParam += "FALSE";
-#else
-        debugParam += "FALSE";
-#endif
+//         using(UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+//         {
+//             this._ViewModel.SimpleDialogue.OnShow("通信中です...");
+//             yield return webRequest.SendWebRequest();
+//             this._ViewModel.SimpleDialogue.OnHide();
 
-        url += labelParam + expensesParam + debugParam;
+//             if(webRequest.isNetworkError)
+//             {
+//                 Debug.Log("error = " + webRequest.error);
+//             }
+//             else
+//             {
+//                 Debug.Log("sucess = " + webRequest.downloadHandler.text);
+//                 this._UpdateExpensesLabel(webRequest.downloadHandler.text);
+//                 this._ResetImput();
 
-        WWWForm form = new WWWForm();
-
-        using(UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
-        {
-            this._ViewModel.SimpleDialogue.OnShow("通信中です...");
-            yield return webRequest.SendWebRequest();
-            this._ViewModel.SimpleDialogue.OnHide();
-
-            if(webRequest.isNetworkError)
-            {
-                Debug.Log("error = " + webRequest.error);
-            }
-            else
-            {
-                Debug.Log("sucess = " + webRequest.downloadHandler.text);
-                this._UpdateExpensesLabel(webRequest.downloadHandler.text);
-                this._ResetImput();
-
-            }
-        }
-    }
+//             }
+//         }
+//     }
 
     void _UpdateExpensesLabel(string inJson)
     {
