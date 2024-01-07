@@ -7,56 +7,6 @@ using UnityEngine.Networking;
 using ExpenseApplication;
 using ExpenseInfrastructure;
 
-// 家計簿情報データ
-[System.Serializable]
-public class ExpensesData
-{
-    public int foodAmount;
-    public int foodBorder;
-    public int gasolineAmount;
-    public int gasolineBorder;
-
-    public int costcoAmount;
-    public int costcoBorder;
-    
-    public int itemAmount;
-    public int itemBorder;
-    
-    public int restaurantAmount;
-    public int restaurantBorder;
-    
-    public int convenienceAmount;
-    public int convenienceBorder;
-
-    public int lanchAmount;
-    public int lanchBorder;
-    
-    public int beautyAmount;
-    public int beautyBorder;
-    
-    public int healthAmount;
-    public int healthBorder;
-        
-    public int gameAmount;
-    public int gameBorder;
-        
-    public int entertainmentAmount;
-    public int entertainmentBorder;
-        
-    public int studyAmount;
-    public int studyBorder;
-        
-    public int presentAmount;
-    public int presentBorder;
-
-    public int totalAmount;
-    public int totalBorder;
-    public int tatsukiAmount;
-    public int tatsukiBorder;
-    public int akiAmount;
-    public int akiBorder;
-}
-
 // ボタン情報
 struct ButtonInfo
 {
@@ -379,7 +329,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
 
         // ---------- [テスト用]ドメイン情報で上書き ---------- //
-        
+
         // var summary = this.expenseService.GetSummary();
         var totalRecord = this.expenseService.GetTotalRecord();
         // var husbandRecord = this.expenseService.GetHusbandPocketMoney();
