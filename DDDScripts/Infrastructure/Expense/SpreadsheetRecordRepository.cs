@@ -17,7 +17,6 @@ namespace ExpenseInfrastructure
             CoroutineManager.Run(this.GetRequest(), onComplete);
         }
 
-
         public Record Find(string id)
         {
             throw new System.NotImplementedException();
@@ -33,8 +32,14 @@ namespace ExpenseInfrastructure
             return this.records.Last();
         }
 
+        public ExpensesData GetBasicData()
+        {
+            return this.basicData;
+        }
+
         // ==================== private ==================== //
 
+        ExpensesData basicData;
         List<Record> records = new List<Record>();
 
         // APIパス
@@ -73,8 +78,8 @@ namespace ExpenseInfrastructure
                 else
                 {
                     Debug.Log("sucess = " + webRequest.downloadHandler.text);
-                    var data = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
-                    this.records = this.ConvertFrom(data);
+                    this.basicData = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
+                    this.records = this.ConvertFrom(this.basicData);
                     // this._UpdateExpensesLabel(webRequest.downloadHandler.text);
                 }
             }

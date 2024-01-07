@@ -105,8 +105,8 @@ public class ExpensesListController : ControllerBase<ExpensesTabViewModel>
         this._ViewModel.Total.Init(total.consumptionAmount, total.border);
 
         // お小遣い
-        // this._ViewModel.Tatsuki.Init(husband.consumptionAmount, husband.border);
-        // this._ViewModel.Aki.Init(wife.consumptionAmount, wife.border);
+        this._ViewModel.Tatsuki.Init(husband.consumptionAmount, husband.border);
+        this._ViewModel.Aki.Init(wife.consumptionAmount, wife.border);
 
         this._Show();
     }
