@@ -2,7 +2,7 @@
 {
     public class RecordDataModelBuilder : IRecordNotification
     {
-        string categoryName;
+        Category category;
         int consumptionAmount;
         int border;
 
@@ -11,9 +11,9 @@
             this.border = border;
         }
 
-        public void CategoryName(string name)
+        public void Category(Category category)
         {
-            this.categoryName = name;
+            this.category = category;
         }
 
         public void ConsumptionAmount(int amount)
@@ -23,9 +23,12 @@
 
         public RecordDataModel Build()
         {
+            var builder = new CategoryDataModelBuilder();
+            category.Notify(builder);
+
             return new RecordDataModel()
             {
-                categoryName = this.categoryName,
+                category = builder.Build(),
                 consumptionAmount = this.consumptionAmount,
                 border = this.border,
             };

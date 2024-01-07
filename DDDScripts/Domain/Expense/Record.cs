@@ -6,7 +6,7 @@ namespace ExpenseDomain
     {
         public readonly string id;
 
-        readonly string categoryName;
+        readonly Category category;
         readonly int consumptionAmount;
         readonly int border;
 
@@ -14,14 +14,14 @@ namespace ExpenseDomain
         {
             this.id = Guid.NewGuid().ToString();
 
-            this.categoryName = categoryName;
+            this.category = CategoryFactory.CreateCategory(categoryName);
             this.consumptionAmount = amount;
             this.border = border;
         }
 
         public void Notify(IRecordNotification note)
         {
-            note.CategoryName(this.categoryName);
+            note.Category(this.category);
             note.ConsumptionAmount(this.consumptionAmount);
             note.Border(this.border);
         }
@@ -33,7 +33,7 @@ namespace ExpenseDomain
             return Equals(id, other.id);
         }
 
-        public static Record Sum(Record[] targets)
+        public static Record Sum(Record[] targets, string categoryName)
         {
             int consumptionAmount = 0;
             int border = 0;
@@ -43,7 +43,7 @@ namespace ExpenseDomain
                 border += record.border;
             }
 
-            return new Record("合計", consumptionAmount, border);
+            return new Record(categoryName, consumptionAmount, border);
         }
     }
 }

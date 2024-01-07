@@ -2,7 +2,7 @@
 {
     public class RecordDataModel
     {
-        public string categoryName;
+        public CategoryDataModel category;
         public int consumptionAmount;
         public int border;
     }

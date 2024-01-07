@@ -19,7 +19,7 @@ namespace ExpenseDomain.Service
         public Record GetSumExpenseRecord()
         {
             Record[] records = this.recordRepository.FindAll();
-            return Record.Sum(records);
+            return Record.Sum(records, "合計");
         }
 
         public Category[] GetCategories()
