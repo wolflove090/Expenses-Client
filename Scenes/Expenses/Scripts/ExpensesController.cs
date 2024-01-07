@@ -1,25 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 using ExpenseDomain;
 using ExpenseApplication;
 using ExpenseInfrastructure;
 
-// ボタン情報
-struct ButtonInfo
-{
-    public string _label;
-    public string _iconName;
-}
-
 public class ExpensesController : ControllerBase<ExpensesViewModel>
 {
     int[] _ValueArray = new int[5]{0,0,0,0,0};
     bool _IsMinus;
-    IButton[] _buttons = {new Food(), new Costco(), new Gasoline(), new Item(), new Restaurant(), new Convenience(), new Lunch(), new Beauty(),new Helth(),new Game(),new Entertainment(),new Study(),new Present(),new Tatsuki(),new Aki()};
 
     // 金額のテキストカラー設定
     Color _DefaultColor = new Color(0,0.7f,0.04f, 1);
@@ -32,7 +20,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     // 家計簿サービス
     ExpenseApplicationService expenseService;
 
-    int _LabelIndex = -1;
+    CategoryDataModel selectCategory = null;
 
     void _SetUp()
     {
@@ -82,9 +70,9 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             toggle.OnChange = (isOn) => 
             {
                 if(isOn)
-                    this._LabelIndex = index;
+                    this.selectCategory = category;
                 else
-                    this._LabelIndex = -1;
+                    this.selectCategory = null;
             };
             var icon = Resources.Load<Sprite>(category.iconName);
             toggle.Label = category.name;
@@ -158,8 +146,6 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         // ---------- リスト ---------- //
         this._ViewModel.ExpensesTab.OnClick = () => 
         {
-            // this._ViewModel.ExpensesList.OnShow(this._ExpensesData);
-
             var records = this.expenseService.GetRecords();
             
             var total = this.expenseService.GetTotalRecord();
@@ -179,10 +165,11 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         this._ViewModel.PostButton.OnClick = () => 
         {
-            if(this._LabelIndex < 0)
+            if(this.selectCategory == null)
                 throw new System.Exception("ラベルが選択されていません");
 
-            this.expenseService.Regist(this._buttons[this._LabelIndex]._label, this._GetValue());
+            Debug.Log(selectCategory.name);
+            this.expenseService.Regist(selectCategory.name, this._GetValue());
         };
 
         this._ViewModel.ResetButton.OnClick = () => 
@@ -221,7 +208,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
     // 入力項目のリセット
     void _ResetInput()
     {
-        this._LabelIndex = -1;
+        this.selectCategory = null;
         this._ValueArray = new int[5]{0,0,0,0,0};
 
         this._ViewModel.SignToggle.IsOn = false;
