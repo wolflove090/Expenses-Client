@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 
-using ExpenseDomain;
-using ExpenseDomain.Service;
+using Expense.Models.Records;
+using Expense.Models.Categories;
+using Expense.Models.PocketMoney;
+using Expense.Service;
 
 namespace ExpenseApplication
 {

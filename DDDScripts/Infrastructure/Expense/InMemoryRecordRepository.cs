@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
-using ExpenseDomain;
+using Expense.Models.Records;
 
-namespace ExpenseInfrastructure
+namespace Expense.Infrastructure
 {
     public class InMemoryRecordRepository : IRecordRepository
     {

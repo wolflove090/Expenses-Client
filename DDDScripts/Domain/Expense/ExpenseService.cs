@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Expense.Models.Records;
+using Expense.Models.Categories;
 
-namespace ExpenseDomain.Service
+namespace Expense.Service
 {
     public class ExpenseService
     {

@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-using ExpenseDomain;
+using Expense.Models.Categories;
+using Expense.Infrastructure;
 using ExpenseApplication;
-using ExpenseInfrastructure;
 
 public class ExpensesController : ControllerBase<ExpensesViewModel>
 {

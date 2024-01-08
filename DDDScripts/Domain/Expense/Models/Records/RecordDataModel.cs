@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Expense.Models.Categories;
 
-namespace ExpenseDomain
+namespace Expense.Models.Records
 {
     public class RecordDataModel
     {

@@ -1,6 +1,5 @@
-﻿namespace ExpenseDomain
+﻿namespace Expense.Models.Categories
 {
-
     public class CategoryDataModelBuilder : ICategoryNotification
     {
         string name;

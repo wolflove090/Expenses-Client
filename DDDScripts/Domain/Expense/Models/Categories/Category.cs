@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExpenseDomain
+namespace Expense.Models.Categories
 {
     public class Category : IEquatable<Category>
     {

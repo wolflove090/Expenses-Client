@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using ExpenseDomain;
+using Expense.Models.Records;
 
 public class ExpensesListLabelController : ControllerBase<ExpensesListLabelViewModel>
 {

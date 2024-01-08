@@ -1,6 +1,7 @@
-﻿using ExpenseDomain;
+﻿using Expense.Models.Records;
+using Expense.Models.PocketMoney;
 
-namespace ExpenseInfrastructure
+namespace Expense.Infrastructure
 {
     public class SpreadsheetPocketMoneyRecordRepository : IPocketMoneyRecordRepository
     {

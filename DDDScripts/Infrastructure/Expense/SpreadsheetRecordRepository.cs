@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 
-using ExpenseDomain;
+using Expense.Models.Records;
 
-namespace ExpenseInfrastructure
+namespace Expense.Infrastructure
 {
     public class SpreadsheetRecordRepository : IRecordRepository
     {

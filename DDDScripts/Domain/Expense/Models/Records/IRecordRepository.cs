@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace ExpenseDomain
+namespace Expense.Models.Records
 {
     public interface IRecordRepository
     {

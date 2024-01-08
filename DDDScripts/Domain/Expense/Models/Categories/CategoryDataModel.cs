@@ -1,4 +1,4 @@
-﻿namespace ExpenseDomain
+﻿namespace Expense.Models.Categories
 {
     public class CategoryDataModel
     {

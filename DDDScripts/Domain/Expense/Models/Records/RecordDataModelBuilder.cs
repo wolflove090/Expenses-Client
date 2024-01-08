@@ -1,4 +1,6 @@
-﻿namespace ExpenseDomain
+﻿using Expense.Models.Categories;
+
+namespace Expense.Models.Records
 {
     public class RecordDataModelBuilder : IRecordNotification
     {

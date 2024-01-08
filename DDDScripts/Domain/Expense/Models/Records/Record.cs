@@ -1,6 +1,7 @@
 ﻿using System;
+using Expense.Models.Categories;
 
-namespace ExpenseDomain
+namespace Expense.Models.Records
 {
     public class Record : IEquatable<Record>
     {
