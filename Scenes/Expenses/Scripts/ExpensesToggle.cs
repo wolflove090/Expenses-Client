@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -36,12 +34,12 @@ public class ExpensesToggle : ToggleBase
         }
     }
 
-    public void Init()
+    public void InitAction()
     {
-        this.Start();
+        this._Start();
     }
 
-    void Start()
+    void _Start()
     {
         this._OnLabel = this.transform.Find("On/Label").GetComponent<TextMeshProUGUI>();
         this._OffLabel = this.transform.Find("Off/Label").GetComponent<TextMeshProUGUI>();

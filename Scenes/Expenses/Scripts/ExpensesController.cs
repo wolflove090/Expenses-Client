@@ -47,7 +47,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.ExpensesLabelGroup.OnClick = () => 
         {
             // ラベル表示をスイッチする
-            if(this._ViewModel.TotalGroup.active)
+            if(this._ViewModel.TotalGroup.activeSelf)
             {
                 this._ViewModel.TotalGroup.SetActive(false);
                 this._ViewModel.AllowanceGroup.SetActive(true);
@@ -68,7 +68,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             var category = categories[i];
             int index = i;
             var toggle = GameObject.Instantiate(this._ViewModel.LabelToggle, this._ViewModel.LabelGroup.gameObject.transform).GetComponent<ExpensesToggle>();
-            toggle.Init();
+            toggle.InitAction();
             toggle.OnChange = (isOn) => 
             {
                 if(isOn)
