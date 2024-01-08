@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Linq;
+using Cysharp.Threading.Tasks;
 
 using ExpenseDomain;
 
@@ -12,9 +12,10 @@ namespace ExpenseInfrastructure
     {
         // ==================== public ==================== //
 
-        public void SetUp(System.Action onComplete)
+        public async UniTask SetUp(System.Action onComplete)
         {
-            CoroutineManager.Run(this.GetRequest(), onComplete);
+            await this.GetRequest();
+            onComplete?.Invoke();
         }
 
         public Record Find(string id)
@@ -32,9 +33,9 @@ namespace ExpenseInfrastructure
             return this.basicData;
         }
 
-        public void Regist(string categoryName, int amount)
+        public async UniTask Regist(string categoryName, int amount)
         {
-            CoroutineManager.Run(this.PostRequest(categoryName, amount));
+            await this.PostRequest(categoryName, amount);
         }
 
         // ==================== private ==================== //
@@ -59,7 +60,7 @@ namespace ExpenseInfrastructure
             }
         }
 
-        IEnumerator GetRequest()
+        async UniTask GetRequest()
         {
             string url = this._ApiUrl;
 
@@ -68,8 +69,12 @@ namespace ExpenseInfrastructure
                 Debug.Log("通信開始");
                 // TODO ダイアログ等表示物の対応が必要
                 // this._ViewModel.SimpleDialogue.OnShow("通信中です...");
-                yield return webRequest.SendWebRequest();
+                var operation =  webRequest.SendWebRequest();
                 // this._ViewModel.SimpleDialogue.OnHide();
+
+                await operation.ToUniTask();
+
+                Debug.Log("通信完了");
 
                 if(webRequest.isNetworkError)
                 {
@@ -85,8 +90,7 @@ namespace ExpenseInfrastructure
             }
         }
 
-
-        IEnumerator PostRequest(string categoryName, int amount)
+        async UniTask PostRequest(string categoryName, int amount)
         {
             if(string.IsNullOrEmpty(categoryName))
             {
@@ -112,8 +116,8 @@ namespace ExpenseInfrastructure
             using(UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
             {
                 Debug.Log("登録通信開始");
-                yield return webRequest.SendWebRequest();
-                
+                var operation = webRequest.SendWebRequest();
+                await operation.ToUniTask();
                 Debug.Log("登録通信完了");
 
                 if(webRequest.isNetworkError)

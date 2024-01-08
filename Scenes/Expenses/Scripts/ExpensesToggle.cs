@@ -43,9 +43,6 @@ public class ExpensesToggle : ToggleBase
 
     void Start()
     {
-        Sprite hoge = Resources.Load<Sprite>("btn_line_black_bag");
-        Debug.Log(hoge);
-
         this._OnLabel = this.transform.Find("On/Label").GetComponent<TextMeshProUGUI>();
         this._OffLabel = this.transform.Find("Off/Label").GetComponent<TextMeshProUGUI>();
 

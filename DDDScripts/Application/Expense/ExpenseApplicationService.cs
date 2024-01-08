@@ -1,4 +1,6 @@
-﻿using ExpenseDomain;
+﻿using Cysharp.Threading.Tasks;
+
+using ExpenseDomain;
 using ExpenseDomain.Service;
 
 namespace ExpenseApplication
@@ -67,9 +69,9 @@ namespace ExpenseApplication
             return this._BuildRecordData(record);
         }
 
-        public void Regist(string categoryName, int amount)
+        public async UniTask Regist(string categoryName, int amount)
         {
-            this.recordRepository.Regist(categoryName, amount);
+            await this.recordRepository.Regist(categoryName, amount);
         }
 
         RecordDataModel _BuildRecordData(Record record)

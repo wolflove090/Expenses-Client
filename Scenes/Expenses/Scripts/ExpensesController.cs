@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using UnityEngine;
 
 using ExpenseDomain;
 using ExpenseApplication;
@@ -14,23 +16,32 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
     CategoryDataModel selectCategory = null;
 
-    void _SetUp()
+    async void Start()
+    {
+        await this._SetUp();
+
+        // 基盤機能を上書きするためここで実行
+        this._OnStart();
+    }
+
+    async UniTask _SetUp()
     {
         SpreadsheetRecordRepository recordRepository = new SpreadsheetRecordRepository();
-        recordRepository.SetUp(null);
+        await recordRepository.SetUp(null);
         this.expenseService = new ExpenseApplicationService(recordRepository, new SpreadsheetPocketMoneyRecordRepository(recordRepository));
     }
 
     override protected void _OnStart()
     {
-        this._SetUp();
-
         // ---------- エラーキャッチ ---------- //
         Application.logMessageReceived += (logString, stackTrace, type) => 
         {
             if(type == LogType.Exception)
                 this._ViewModel.ErrorDialogue.OnShow(logString);
         };
+
+        // ---------- ヘッダー更新 ---------- //
+        this._UpdateExpensesLabel();
 
         // ---------- ラベル設定 ---------- //
 
@@ -158,11 +169,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         this._ViewModel.PostButton.OnClick = () => 
         {
-            if(this.selectCategory == null)
-                throw new System.Exception("ラベルが選択されていません");
-
-            Debug.Log(selectCategory.name);
-            this.expenseService.Regist(selectCategory.name, this._GetValue());
+            this._RegistExpense();
         };
 
         this._ViewModel.ResetButton.OnClick = () => 
@@ -229,5 +236,14 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.TatsukiAllowanceNum.color = husbandRecord.GetLabelColor();
         this._ViewModel.AkiAllowanceNum.text = wifeRecord.budgetRemaining.ToString();
         this._ViewModel.AkiAllowanceNum.color = wifeRecord.GetLabelColor();
+    }
+
+    async void _RegistExpense()
+    {
+        if(this.selectCategory == null)
+            throw new System.Exception("ラベルが選択されていません");
+
+        await this.expenseService.Regist(selectCategory.name, this._GetValue());
+        Debug.Log("送信完了");
     }
 }

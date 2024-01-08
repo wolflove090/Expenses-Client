@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 using ExpenseDomain;
 
@@ -81,7 +82,7 @@ namespace ExpenseInfrastructure
             return null;
         }
 
-        public void Regist(string categoryName, int amount)
+        public UniTask Regist(string categoryName, int amount)
         {
             throw new System.NotImplementedException();
         }
