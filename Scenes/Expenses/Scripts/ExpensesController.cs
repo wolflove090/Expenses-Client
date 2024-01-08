@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using System;
 using UnityEngine;
 
 using ExpenseDomain;
@@ -251,6 +250,5 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
             throw new System.Exception("ラベルが選択されていません");
 
         await this.expenseService.Regist(selectCategory.name, this._GetValue());
-        Debug.Log("送信完了");
     }
 }
