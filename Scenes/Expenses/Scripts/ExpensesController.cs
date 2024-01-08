@@ -162,9 +162,7 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
 
         this._ViewModel.UpdateButton.OnClick = () => 
         {
-            // Debug.Log("get");
-            // StartCoroutine(this.GetRequest());
-            this._UpdateExpensesLabel();
+            this._RefreshExpense();
         };
 
         this._ViewModel.PostButton.OnClick = () => 
@@ -238,6 +236,15 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.AkiAllowanceNum.color = wifeRecord.GetLabelColor();
     }
 
+    // 情報の更新
+    // サービスを再起動して情報の更新を行います
+    async void _RefreshExpense()
+    {
+        await this._SetUp();
+        this._UpdateExpensesLabel();
+    }
+
+    // 家計簿記録の登録
     async void _RegistExpense()
     {
         if(this.selectCategory == null)

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
@@ -85,7 +84,6 @@ namespace ExpenseInfrastructure
                     Debug.Log("sucess = " + webRequest.downloadHandler.text);
                     this.basicData = JsonUtility.FromJson<ExpensesData>(webRequest.downloadHandler.text);
                     this.records = this.ConvertFrom(this.basicData);
-                    // this._UpdateExpensesLabel(webRequest.downloadHandler.text);
                 }
             }
         }
@@ -149,12 +147,7 @@ namespace ExpenseInfrastructure
             records.Add(new Record("娯楽・レジャー", data.entertainmentAmount, data.entertainmentBorder));
             records.Add(new Record("教養", data.studyAmount, data.studyBorder));
             records.Add(new Record("交際費", data.presentAmount, data.presentBorder));
-
-            // var husband = new Record("夫お小遣い", data.tatsukiAmount, data.tatsukiBorder);
-            // var wife = new Record("妻お小遣い", data.akiAmount, data.akiBorder);
-
-            // var total = new Record("合計", data.totalAmount, data.totalBorder);
-
+            
             return records;
         }
     }
