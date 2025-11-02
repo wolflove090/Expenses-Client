@@ -358,4 +358,44 @@ public class ExpensesController : ControllerBase<ExpensesViewModel>
         this._ViewModel.AkiAllowanceNum.text = (this._ExpensesData.akiBorder - this._ExpensesData.akiAmount).ToString();
         this._ViewModel.AkiAllowanceNum.color = ExpensesUtil._GetLabelColor(this._ExpensesData.akiAmount, this._ExpensesData.akiBorder);
     }
+
+    void SampleMethod()
+    {
+        int tmp = 0;
+        var aaa = new List<int>();
+
+        for(int i = 0; i < 100; i++)
+        {
+            if(i % 2 == 0 && i > 3 || i == 5 && i < 90 || (i * 2) - 1 == 7)
+                aaa.Add(i);
+        }
+
+        this._ViewModel.TotalAmountNum.text = "test" + aaa[99].ToString();
+
+        var url = this._ApiUrl + "????";
+        UnityWebRequest req = UnityWebRequest.Get(url);
+        req.SendWebRequest();
+
+        var tex = new Texture2D(2, 2);
+        var bytes = new byte[]{ 1, 2, 3, 4 };
+        tex.LoadImage(bytes);
+
+        try
+        {
+            Debug.Log(tex.GetPixel(99, 99));
+        }
+        catch
+        {
+        }
+
+        PrintSomeThing(tmp);
+    }
+
+    void PrintSomeThing(int v)
+    {
+        Debug.Log("Valu = " + v);
+
+        var web = UnityWebRequest.Get("https://example.com");
+        web.SendWebRequest();
+    }
 }
